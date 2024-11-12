@@ -1,0 +1,6 @@
+RewriteEngine On
+
+#Redirige toutes les requêtes vers index.php dans le dossier public (dossier index a côté de mon dossier appache .htaccess
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
