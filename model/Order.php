@@ -53,7 +53,7 @@ class Order
     public function removeProduct()
     {
         //si le statut de ma commande est "cart" et donc en cours
-        if ($this->status === "cart") {
+        if ($this->status = "cart") {
             //et si mon tableau n'est pas vide
             if (!empty($this->products)) {
                 //alors je supprime le dernier élément de mon tableau de produits

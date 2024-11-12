@@ -1,4 +1,4 @@
-
+<?php require_once '../partials/_header.php'; ?>
 
 <body>
     <main>
@@ -11,5 +11,5 @@
 </body>
 </html>
 
-
+<?php  require_once '../partials/_footer.php'; ?>
 

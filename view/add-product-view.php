@@ -1,3 +1,5 @@
+<?php require_once '../partials/_header.php'; ?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -9,25 +11,9 @@
 </head>
 <body>
 
-<main>
-
-    <h1>Faites votre commande</h1>
-
-    <?php if ($reponse) { ?>
-
-        <h1> <?php echo $reponse; ?> </h1>
-
-    <?php } ?>
-
-    <form method="POST">
-        <label>Votre nom</label>
-        <input type="text" name="customerName"/>
-
-        <button type="submit">Créér une commande</button>
-    </form>
-</main>
+<p> <?php echo $reponse?></p>
 
 </body>
 </html>
 
-
+<?php  require_once '../partials/_footer.php'; ?>
