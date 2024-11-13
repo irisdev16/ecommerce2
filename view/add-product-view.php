@@ -11,7 +11,25 @@
 </head>
 <body>
 
-<p> <?php echo $reponse?></p>
+<p><?php echo $reponse ?></p>
+
+<p> Commande numéro : <?php echo $order->getId(); ?> </p>
+
+<p>Produits ajoutés :
+    <ul>
+
+        <?php foreach ($order->getProducts() as $product){?>
+
+        <li> <?php echo $product?></li>
+
+        <?php } ?>
+
+    </ul>
+</p>
+
+<p> Prix total : <?php echo $order->getTotalPrice(); ?> euros.</p>
+
+<p>Date : <?php echo $order->getDate(); ?> </p>
 
 </body>
 </html>

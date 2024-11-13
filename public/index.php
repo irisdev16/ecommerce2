@@ -17,12 +17,18 @@ $endUri = ltrim($endUri, '/');
 $OrderController = new OrderController();
 
 //pour chaque partie (if, else if, else), en fonction de la valeur de $endUri, on charge le bon controleur
+//cela permet d'appeler dans mon url le nom associé
 if ($endUri === '') {
     $OrderController->createOrder();
 
 } else if ($endUri === 'add-product') {
     $OrderController->addProduct();
 
+} else if ($endUri === 'remove-product') {
+    $OrderController->removeProduct();
+
+} else if ($endUri === 'shipping-address') {
+    $OrderController->setShippingAddress();
 
 } else {
     $ErrorController = new ErrorController();

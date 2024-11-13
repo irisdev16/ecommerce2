@@ -18,6 +18,7 @@ class Order
     private $shippingAddress;
 
 
+
     // je créé une méthode construct :
     //le constructeur est une méthode "magique" car elle est appelé automatiquement quand l'instance de classe est créé
     // j'initie avec this qui fait référence à l'instance de classe actuel, je donne un nom à ma variable qui ici est le même
@@ -28,6 +29,7 @@ class Order
         if(mb_strlen($customerName) < 3){
             throw new Exception("Veuillez entrer un nom correct");
         }
+
 
             $this->customerName = $customerName;
             $this->id = uniqid();
@@ -66,14 +68,18 @@ class Order
         }
     }
 
-
+    //je créé une méthode "setShippingAddress" qui permet d'établir une adresse de livraison
+    // si le statut est "cart"
+    //alors la propriété privéé enoncé en haut private $shippingAddress prend l'adresse passé en paramètre de ma méthode
+    //et alors le statut passe a "shippingAdressSet"
+    //sinon, j'ai un message d'exception qui indique une erreur
     public function setShippingAddress($shippingAddress)
     {
-        if ($this->status === "cart") {
+        if ($this->status === "cart"){
             $this->shippingAddress = $shippingAddress;
-            $this->status = "shippingAdressSet";
+            $this->status = "shippingAddressSet";
         } else {
-            throw new Exception("Vous n'avez rien dans votre panier, vous ne pouvez pas entrer une adresse de livraison");
+            throw new Exception("Adresse non modifiable");
         }
     }
 
@@ -82,7 +88,7 @@ class Order
     public function pay()
     {
         //condition : si le statut de la commande est "cart"
-        if ($this->status === "shippingAdressSet" && !empty($this->products)) {
+        if ($this->status === "shippingAddressSet" && !empty($this->products)) {
             //le passer a "paid"
             $this->status = "paid";
         } else {
@@ -102,6 +108,32 @@ class Order
             throw new Exception("La commande ne peut pas être expédiée, elle n'est pas encore payée.");
 
         }
+    }
+
+
+    //ci dessous plusieurs méthode getter qui me permette de récupérer des propriétés privées en haut et de les appeler
+    // dans mes views
+    public function getId(){
+        return $this->id;
+    }
+
+    public function getProducts(){
+        return $this->products;
+    }
+
+    public function getTotalPrice(){
+        return $this->totalPrice;
+    }
+    public function date(){
+        date_default_timezone_set('UTC');
+    }
+
+    public function getDate(){
+        return date('l jS \of F Y h:i:s A');
+    }
+
+    public function getAddress(){
+        return $this->shippingAddress;
     }
 
 }

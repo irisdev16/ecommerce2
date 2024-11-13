@@ -1,5 +1,7 @@
 
-<?php require_once ('../model/Order.php');
+<?php
+
+require_once ('../model/Order.php');
 require_once('../model/OrderRepository.php');
 
 
@@ -34,7 +36,8 @@ class OrderController
 
     }
 
-    public function addProduct(){
+    public function addProduct()
+    {
         $reponse = null;
 
         //J'instancie l'OrderRepository et j'appelle la méthode FindOrder
@@ -57,11 +60,65 @@ class OrderController
         }
 
 
-
         require_once '../view/add-product-view.php';
 
 
+    }
 
+    public function removeProduct()
+    {
+        $reponse = null;
+        $OrderRepository = new OrderRepository();
+        $order = $OrderRepository->findOrder();
+
+        try {
+            $order->removeProduct();
+
+            $OrderRepository->persistOrder($order);
+            $reponse = 'produit supprimé';
+
+        } catch (Exception $exception) {
+            $reponse = $exception->getMessage();
+        }
+
+        require_once '../view/remove-product-view.php';
+
+    }
+
+    //je créée une méthode
+    public function setShippingAddress(){
+
+        //je créé une instance d'OrderRepository pour récupérer une commande existant
+        $OrderRepository = new OrderRepository();
+        $order = $OrderRepository->findOrder();
+
+        //j'initie une variable "reponse" qui me permettra d'afficher un message d'erreur si
+        // la condition suivante n'est pas remplie
+        $reponse = null;
+
+
+        // je vérifie et récupère les données de la requête post
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+            //si la clé shippingAddress existe
+            if (key_exists('shippingAddress', $_POST)) {
+
+                //j'essaie de modifier l'adresse de livrauson
+                try {
+                    $order -> setShippingAddress($_POST['shippingAddress']);
+                    //si tout est bon, j'envoie le message suivant
+                    $reponse = 'Adresse ajoutée';
+
+
+                //sinon j'envoi mon message d'exception
+                } catch (Exception $exception) {
+                    $reponse = $exception->getMessage();
+                }
+            }
+        }
+
+        //j'appelle la view de shipping-adress car c'est elle qui sera affichée dans mon navigateur
+        require_once '../view/shipping-address-view.php';
     }
 }
 
