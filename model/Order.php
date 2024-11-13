@@ -1,21 +1,24 @@
 <?php
+//permet de typer le langage, c'est-à-dire de respecter le typage, si string; si float
+declare(strict_types=1);
 
 // je créé une class  Order
 class Order
 {
 
     //j'assigne à la classe une propriété "id"
-    private $id;
+    private string $id;
     //j'assigne à la classe une propriété "customerName"
-    private $customerName;
+    private string $customerName;
     //j'assigne à la classe une propriété "status"
-    private $status = "cart";
+    private string $status = "cart";
     //j'assigne à la classe une propriété "totalPrice"
-    private $totalPrice = 0;
+    private float $totalPrice = 0;
     //j'assigne à la classe une propriété "products"
-    private $products = [];
+    private  array $products = [];
     //j'assigne à la classe une propriété "shippingAdress"
-    private $shippingAddress;
+    // le typage avec le ? veut dire que cette propriété peut etre une chaine de caractère ou nulle
+    private ?string $shippingAddress;
 
 
 
@@ -24,7 +27,7 @@ class Order
     // j'initie avec this qui fait référence à l'instance de classe actuel, je donne un nom à ma variable qui ici est le même
     //que la propriété de ma méthode et de ma classe, j'appelle la propriété
     // idem pour this ensuite, je dis que la propriété id aura un identifiant unique
-    public function __construct($customerName){
+    public function __construct(string $customerName){
 
         if(mb_strlen($customerName) < 3){
             throw new Exception("Veuillez entrer un nom correct");
@@ -40,8 +43,7 @@ class Order
     //je créé une méthode (fonction) "addProduct" qui permet l'ajout d'un produit
     // le $this n'a de sens qu'à l'intérieur de ma class, il fait référence à l'instance de classe actuel c'est-à-dire a Order1,
     // Order2, etccc.  donc à l'instance de classe actuel issu de la class.
-    public function addProduct()
-    {
+    public function addProduct() : void {
         //condition : si le status de la commande est "cart" (donc produits dans le panier)
         if ($this->status = "cart") {
             //alors ajouter dans le tableau de produits "pringles" (en supposant qu'il n'y ai que des pringles à vendre)
@@ -52,8 +54,7 @@ class Order
     }
 
     //je créé une méthode "removeProduct" qui permet de supprimer un produit dans une commande en cours
-    public function removeProduct()
-    {
+    public function removeProduct() : void{
         //si le statut de ma commande est "cart" et donc en cours
         if ($this->status = "cart") {
             //et si mon tableau n'est pas vide
@@ -73,8 +74,7 @@ class Order
     //alors la propriété privéé enoncé en haut private $shippingAddress prend l'adresse passé en paramètre de ma méthode
     //et alors le statut passe a "shippingAdressSet"
     //sinon, j'ai un message d'exception qui indique une erreur
-    public function setShippingAddress($shippingAddress)
-    {
+    public function setShippingAddress(string $shippingAddress): void {
         if ($this->status === "cart"){
             $this->shippingAddress = $shippingAddress;
             $this->status = "shippingAddressSet";
@@ -85,20 +85,20 @@ class Order
 
 
     //je créé une méthode "pay" qui permet de payer la commande
-    public function pay()
+    public function pay() : void
     {
         //condition : si le statut de la commande est "shipping adress"
         if ($this->status === "shippingAddressSet" && !empty($this->products)) {
             //le passer a "paid"
             $this->status = "paid";
         } else {
-            throw new Exception("Vous ne pouvez pas payer, merci de rentrer votre adresse d'abord.");
+            throw new Exception("Vous ne pouvez pas payer, soit l'adresse de livraion n'est pas remplie, soit tu as déjà payé.");
         }
     }
 
 
     //je créé une méthode "envoi de la commande"
-    public function ship()
+    public function ship() : void
     {
         //condition : si la commande est payée
         if ($this->status == "paid") {
@@ -113,26 +113,26 @@ class Order
 
     //ci dessous plusieurs méthode getter qui me permette de récupérer des propriétés privées en haut et de les appeler
     // dans mes views
-    public function getId(){
+    public function getId() : string{
         return $this->id;
     }
 
-    public function getProducts(){
+    public function getProducts() : array{
         return $this->products;
     }
 
     public function getTotalPrice(){
         return $this->totalPrice;
     }
-    public function date(){
+    public function date() {
         date_default_timezone_set('UTC');
     }
 
-    public function getDate(){
+    public function getDate() : string {
         return date('l jS \of F Y h:i:s A');
     }
 
-    public function getAddress(){
+    public function getAddress() : string{
         return $this->shippingAddress;
     }
 

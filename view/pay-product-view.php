@@ -12,10 +12,15 @@
 <body>
 <main>
 
+    <h1>Page de paiement</h1>
 
 
     <p> Commande numéro : <?php echo $order->getId(); ?> </p>
     <p>Prix payé : <?php echo $order->getTotalPrice();?> euros</p>
+
+    <form method="post">
+        <input type="submit" value="Payez" />
+    </form>
 
     <p><?php echo $reponse ?></p>
 

@@ -1,5 +1,5 @@
 <?php
-
+require_once '../config/config.php';
 require_once '../partials/_header.php';
 require_once('../controller/OrderController.php');
 require_once ('../controller/ErrorController.php');

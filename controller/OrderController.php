@@ -1,5 +1,6 @@
-
 <?php
+//permet de typer le langage, c'est-à-dire de respecter le typage, si string; si float
+declare(strict_types=1);
 
 require_once ('../model/Order.php');
 require_once('../model/OrderRepository.php');
@@ -8,8 +9,7 @@ require_once('../model/OrderRepository.php');
 class OrderController
 {
 
-    public function createOrder()
-    {
+    public function createOrder() : void{
         $reponse = null;
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -36,8 +36,7 @@ class OrderController
 
     }
 
-    public function addProduct()
-    {
+    public function addProduct() : void {
         $reponse = null;
 
         //J'instancie l'OrderRepository et j'appelle la méthode FindOrder
@@ -65,8 +64,7 @@ class OrderController
 
     }
 
-    public function removeProduct()
-    {
+    public function removeProduct() : void{
         $reponse = null;
         $orderRepository = new OrderRepository();
         $order = $orderRepository->findOrder();
@@ -86,7 +84,7 @@ class OrderController
     }
 
     //je créée une méthode
-    public function setShippingAddress(){
+    public function setShippingAddress() : void {
 
         //je créé une instance d'OrderRepository pour récupérer une commande existant
         $orderRepository = new OrderRepository();
@@ -122,7 +120,7 @@ class OrderController
     }
 
     //je créé une méthode pour le paiement de la commande
-    public function payOrder(){
+    public function payOrder() : void {
 
         //j'initie une variable "reponse" qui me permettra d'afficher un message d'erreur si
         // le try catch suivant ne fonctionne pas
@@ -132,17 +130,19 @@ class OrderController
         $orderRepository = new OrderRepository();
         $order = $orderRepository->findOrder();
 
-        //j'essaie de payer la commande
-        try {
-            $order->pay();
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            //j'essaie de payer la commande
+            try {
+                $order->pay();
 
-            $orderRepository->persistOrder($order);
-            //si tout est bon, ce message s'affiche
-            $reponse = 'Produits payés';
+                $orderRepository->persistOrder($order);
+                //si tout est bon, ce message s'affiche
+                $reponse = 'Paiement effectué, livraison possible mais pas de suite';
 
-            //sinon mon message d'exception s'affiche
-        } catch (Exception $exception) {
-            $reponse = $exception->getMessage();
+                //sinon mon message d'exception s'affiche
+            } catch (Exception $exception) {
+                $reponse = $exception->getMessage();
+            }
         }
 
         // j'appelle la vue de pay-product car c'est elle qui sera affichéé dans mon navigateur
