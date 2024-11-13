@@ -43,8 +43,8 @@ class OrderController
         //J'instancie l'OrderRepository et j'appelle la méthode FindOrder
         //Cela permet de récupérer la commande actuellement en session
 
-        $OrderRepository = new OrderRepository();
-        $order = $OrderRepository->findOrder();
+        $orderRepository = new OrderRepository();
+        $order = $orderRepository->findOrder();
 
         try {
             //J'ajoue un produit à la commande
@@ -52,7 +52,7 @@ class OrderController
 
 
             //Je la sauvegarde en BDD
-            $OrderRepository->persistOrder($order);
+            $orderRepository->persistOrder($order);
             $reponse = 'produit ajouté';
 
         } catch (Exception $exception) {
@@ -68,13 +68,13 @@ class OrderController
     public function removeProduct()
     {
         $reponse = null;
-        $OrderRepository = new OrderRepository();
-        $order = $OrderRepository->findOrder();
+        $orderRepository = new OrderRepository();
+        $order = $orderRepository->findOrder();
 
         try {
             $order->removeProduct();
 
-            $OrderRepository->persistOrder($order);
+            $orderRepository->persistOrder($order);
             $reponse = 'produit supprimé';
 
         } catch (Exception $exception) {
@@ -89,8 +89,8 @@ class OrderController
     public function setShippingAddress(){
 
         //je créé une instance d'OrderRepository pour récupérer une commande existant
-        $OrderRepository = new OrderRepository();
-        $order = $OrderRepository->findOrder();
+        $orderRepository = new OrderRepository();
+        $order = $orderRepository->findOrder();
 
         //j'initie une variable "reponse" qui me permettra d'afficher un message d'erreur si
         // la condition suivante n'est pas remplie
@@ -129,14 +129,14 @@ class OrderController
         $reponse = null;
 
         //je créé une instance d'OrderRepository pour récupérer une commande existante
-        $OrderRepository = new OrderRepository();
-        $order = $OrderRepository->findOrder();
+        $orderRepository = new OrderRepository();
+        $order = $orderRepository->findOrder();
 
         //j'essaie de payer la commande
         try {
             $order->pay();
 
-            $OrderRepository->persistOrder($order);
+            $orderRepository->persistOrder($order);
             //si tout est bon, ce message s'affiche
             $reponse = 'Produits payés';
 

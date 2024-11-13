@@ -14,28 +14,28 @@ $uri = parse_url($requestUri, PHP_URL_PATH);
 $endUri = str_replace ('ecommerce/public/', '', $uri);
 $endUri = ltrim($endUri, '/');
 
-$OrderController = new OrderController();
+$orderController = new OrderController();
 
 //pour chaque partie (if, else if, else), en fonction de la valeur de $endUri, on charge le bon controleur
 //cela permet d'appeler dans mon url le nom associé
 if ($endUri === '') {
-    $OrderController->createOrder();
+    $orderController->createOrder();
 
 } else if ($endUri === 'add-product') {
-    $OrderController->addProduct();
+    $orderController->addProduct();
 
 } else if ($endUri === 'remove-product') {
-    $OrderController->removeProduct();
+    $orderController->removeProduct();
 
 } else if ($endUri === 'shipping-address') {
-    $OrderController->setShippingAddress();
+    $orderController->setShippingAddress();
 
 } else if ($endUri === 'payment-method') {
-    $OrderController->payOrder();
+    $orderController->payOrder();
 
 } else {
-    $ErrorController = new ErrorController();
-    $ErrorController ->notFound();
+    $errorController = new ErrorController();
+    $errorController ->notFound();
 
 }
 
