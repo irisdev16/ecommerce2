@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 require_once ('../model/Order.php');
 require_once('../model/OrderRepository.php');
+require_once ('../vendor/autoload.php');
 
 
 class OrderController
@@ -31,8 +32,18 @@ class OrderController
             }
         }
 
+        // je créé la config de twig en lui indiquant le chemin pour accéder aux templates
+        $loader = new \Twig\Loader\FilesystemLoader('../view');
+        // je charge twig avec la configuration
+        // ça me permet d'avoir une variable $twig qui contient une instance
+        // de la classe twig
+        // et donc pouvoir utiliser les méthodes public que twig crées
+        $twig = new \Twig\Environment($loader);
 
-        require_once '../view/create-order-view.php';
+        echo $twig->render('create-order.twig', [
+            'message' => $reponse,
+        ]);
+
 
     }
 

@@ -15,11 +15,11 @@
 
     <h1>Faites votre commande</h1>
 
-    <?php if ($reponse) { ?>
+    {% if reponse %}
 
-        <h1> <?php echo $reponse; ?> </h1>
+        <h1> {{ reponse }} </h1>
 
-    <?php } ?>
+    {% endif %}
 
     <form method="POST">
         <label>Votre nom</label>
