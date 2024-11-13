@@ -30,6 +30,9 @@ if ($endUri === '') {
 } else if ($endUri === 'shipping-address') {
     $OrderController->setShippingAddress();
 
+} else if ($endUri === 'payment-method') {
+    $OrderController->payOrder();
+
 } else {
     $ErrorController = new ErrorController();
     $ErrorController ->notFound();

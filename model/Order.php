@@ -87,7 +87,7 @@ class Order
     //je créé une méthode "pay" qui permet de payer la commande
     public function pay()
     {
-        //condition : si le statut de la commande est "cart"
+        //condition : si le statut de la commande est "shipping adress"
         if ($this->status === "shippingAddressSet" && !empty($this->products)) {
             //le passer a "paid"
             $this->status = "paid";

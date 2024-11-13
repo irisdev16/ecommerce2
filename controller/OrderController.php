@@ -103,7 +103,7 @@ class OrderController
             //si la clé shippingAddress existe
             if (key_exists('shippingAddress', $_POST)) {
 
-                //j'essaie de modifier l'adresse de livrauson
+                //j'essaie de modifier l'adresse de livraison
                 try {
                     $order -> setShippingAddress($_POST['shippingAddress']);
                     //si tout est bon, j'envoie le message suivant
@@ -119,6 +119,35 @@ class OrderController
 
         //j'appelle la view de shipping-adress car c'est elle qui sera affichée dans mon navigateur
         require_once '../view/shipping-address-view.php';
+    }
+
+    //je créé une méthode pour le paiement de la commande
+    public function payOrder(){
+
+        //j'initie une variable "reponse" qui me permettra d'afficher un message d'erreur si
+        // le try catch suivant ne fonctionne pas
+        $reponse = null;
+
+        //je créé une instance d'OrderRepository pour récupérer une commande existante
+        $OrderRepository = new OrderRepository();
+        $order = $OrderRepository->findOrder();
+
+        //j'essaie de payer la commande
+        try {
+            $order->pay();
+
+            $OrderRepository->persistOrder($order);
+            //si tout est bon, ce message s'affiche
+            $reponse = 'Produits payés';
+
+            //sinon mon message d'exception s'affiche
+        } catch (Exception $exception) {
+            $reponse = $exception->getMessage();
+        }
+
+        // j'appelle la vue de pay-product car c'est elle qui sera affichéé dans mon navigateur
+        require_once '../view/pay-product-view.php';
+
     }
 }
 
